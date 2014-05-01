@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -30,9 +31,10 @@ public class WebInterface {
 
         for (ApplicationInfo app : list) {
             String appName = app.packageName;
-            if (manager.getLaunchIntentForPackage(app.packageName) != null) {
+            if (manager.getLaunchIntentForPackage(appName) != null) {
                 String name = (String) manager.getApplicationLabel(app);
-                apps += "{\"launchName\":\"" + name + "\",\"packageName\":\"" + appName + "\"},";
+                Uri iconURI = Uri.parse("android.resource://" + appName + "/drawable/ic_launcher");
+                apps += "{\"launchName\":\"" + name + "\",\"packageName\":\"" + appName + "\",\"iconUri\":\"" + iconURI + "\"},";
             }
         }
 
