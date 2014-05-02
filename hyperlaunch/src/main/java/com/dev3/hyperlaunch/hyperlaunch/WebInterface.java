@@ -33,7 +33,7 @@ public class WebInterface {
             String appName = app.packageName;
             if (manager.getLaunchIntentForPackage(appName) != null) {
                 String name = (String) manager.getApplicationLabel(app);
-                Uri iconURI = Uri.parse("android.resource://" + appName + "/drawable/ic_launcher");
+                Uri iconURI = Uri.parse("android.resource://" + appName + "/" + app.icon);
                 apps += "{\"launchName\":\"" + name + "\",\"packageName\":\"" + appName + "\",\"iconUri\":\"" + iconURI + "\"},";
             }
         }
@@ -41,5 +41,11 @@ public class WebInterface {
         apps = apps.substring(0, apps.length() - 1) + "]";
 
         return apps;
+    }
+
+    @JavascriptInterface
+    public void launch (String packageName) {
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        context.startActivity(launchIntent);
     }
 }
